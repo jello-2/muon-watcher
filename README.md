@@ -12,6 +12,7 @@ We initially expected that the relativistic effects would mean that a larger rat
 https://www.unco.edu/nhs/physics-astronomy/pdf/2018CSGCEclipse.pdf
 show that there exists a particular curve for this data, the Pfotzer curve. Thus, this experiment intends to not only observe the Muons themselves, but also whether if the Pfotzer curve exists in our own experimentation
 
+Muon detection is done through the CosmicWatch Desktop Muon Detector (https://github.com/spenceraxani/CosmicWatch-Desktop-Muon-Detector-v2), to which it will be modified to include other sensors.
 ## Components
 - Scintillator
 - Altimeter
