@@ -260,7 +260,7 @@ void OpeningScreen(void)
     display.setTextColor(WHITE);
     display.setCursor(8, 0);
     display.clearDisplay();
-    display.print(F("Cosmic \n     Watch"));
+    display.print(F("Muon \n Watchers"));
     display.display();
     display.setTextSize(1);
     display.clearDisplay();
