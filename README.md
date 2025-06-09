@@ -26,8 +26,8 @@ Muon detection is done through the CosmicWatch Desktop Muon Detector (https://gi
 | Step   | Description | Progress|
 | -------- | ------- | ------ |
 | 1. Research | Muon fundamentals, components required, altitude-rate theory  | Complete|
-| 2. Building| Components delivered and to be soldered, planning of location of parts and sensors   | In Progress |
-| 3. Testing  | Make sure components and code are foolproof, meet with engineers | - |
+| 2. Building| Components delivered and to be soldered, planning of location of parts and sensors   | Complete |
+| 3. Testing  | Make sure components and code are foolproof, meet with engineers | In Progress |
 | 4. Official Run | Attached to weatherballoon| - |
 |5. Data analysis and results| Plotting with tools such as Matplotlib | -|
 
