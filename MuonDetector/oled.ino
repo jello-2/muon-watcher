@@ -69,7 +69,7 @@ void updateScreen() {
       unsigned int barLength = (sipmIntV * 2) / 3; //<<1 should be a fast multiply by 2 on an unsigned int
       //Serial.print(F(", Bar Length Px: "));
       //Serial.println(barLength);
-      DEBUG_RAM();
+
       for(byte i = 2; i < barLength && i < 118; i++) { //Invert the bar graph to the rught length. LEaving the ends as they are white.
         tempTile[i] ^= CHAR_BAR_GRAPH; //Make the columns with pixels displaying the bar graph white.
       }
@@ -95,47 +95,49 @@ void updateScreen() {
 
 #ifdef USE_SCREEN
 void updateTime() {
-  //Update the clock and rate on the display every second.
+  // Refresh display every SCREEN_UPDATE_INTERVAL ms (typically 1000 ms)
   static unsigned long nextTime = 0;
   if (millis() >= nextTime) {
-    nextTime = millis();
-    unsigned long timeOfUpdate = nextTime;
-    //u8x8.setCursor(0,2);
-    char charBuffer[12]; //10 bytes should be enough, but add a bit more 999:00:00 is about a month and a bit, 9999:00:00 is over a year - millis() rolls over after 50 days - possibly add stuff in to handle this?
-    //Time:dd:hh:mm:ss change to?
-    runningTime(charBuffer);
-    u8x8.draw1x2String(5, 2, charBuffer);
-    //Calculate the count rate and standared deviation
-    float countRate, countStd;
-    if (count > 0) {
-      countRate = float(count) / (float(nextTime - startTime - totalDeadtime) / 1000.0);
-      countStd = sqrt(count) / ((nextTime - startTime - totalDeadtime) / 1000.0);
-    } else {
-      countRate = 0;
-      countStd = 0;
+    unsigned long now = millis();
+    unsigned long elapsed = now - startTime - totalDeadtime;
+
+    // Format time as hh:mm:ss
+    char timeBuffer[10];
+    unsigned long totalSeconds = elapsed / 1000;
+    unsigned int h = totalSeconds / 3600;
+    unsigned int m = (totalSeconds % 3600) / 60;
+    unsigned int s = totalSeconds % 60;
+    snprintf(timeBuffer, sizeof(timeBuffer), "%02u:%02u:%02u", h, m, s);
+    u8x8.draw1x2String(5, 2, timeBuffer); // Display right of "Time:"
+
+    // Compute count rate and standard deviation
+    float countRate = 0.0, countStd = 0.0;
+    if (count > 0 && elapsed > 0) {
+      float t = elapsed / 1000.0;
+      countRate = count / t;
+      countStd = sqrt(count) / t;
     }
-    //Do stuff with these numbers
-    byte decimalPlaces = 2;
-    if (countRate < 10) {
-      decimalPlaces = 3;
-    }
+
+    char charBuffer[12];
+    byte decimalPlaces = (countRate < 10) ? 3 : 2;
     dtostrf(countRate, 5, decimalPlaces, charBuffer);
     u8x8.draw1x2String(5, 6, charBuffer);
-    //strcpy_P(charBuffer,plusOrMinus);
-    //Draw a small + symbol above a small - symbol to make a +/- sign
+
     u8x8.drawGlyph(10, 6, '+');
     u8x8.drawGlyph(10, 7, '-');
-    //u8x8.draw1x2String(11,6,charBuffer);
-    decimalPlaces = 2;
-    if (countStd < 10) {
-      decimalPlaces = 3;
-    }
+
+    decimalPlaces = (countStd < 10) ? 3 : 2;
     dtostrf(countStd, 5, decimalPlaces, charBuffer);
     u8x8.draw1x2String(11, 6, charBuffer);
-    updateScreen();
-    nextTime = millis();
-    totalDeadtime += nextTime - timeOfUpdate;
-    nextTime += SCREEN_UPDATE_INTERVAL;
+
+    updateScreen(); // May be a placeholder for additional rendering logic
+
+    // Track time lost to updating screen
+    unsigned long updateEnd = millis();
+    totalDeadtime += updateEnd - now;
+
+    nextTime = now + SCREEN_UPDATE_INTERVAL;
   }
 }
+
 #endif

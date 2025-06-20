@@ -17,8 +17,8 @@
 //If the screen is used, it will be updated once per second.
 #define USE_SCREEN //Whether to include the library and code for driving the oled display or not
 #define USE_SD_CARD //Whether to include the library and code for writing to the sd card
-#define USE_SERIAL //Whether to enable serial
-#define USE_SERIAL_SETTINGS //Whether to include code for saving the detector name into eeprom without having to flash naming.ino
+// #define USE_SERIAL //Whether to enable serial
+//#define USE_SERIAL_SETTINGS 0//Whether to include code for saving the detector name into eeprom without having to flash naming.ino
                             //Will only be enabled if USE_SERIAL is enabled as well
 //#define USE_SERIAL_DEBUG //Prints out the RAM usage on the end of the data just before saving it to the sd card / serial. Only active if SD Card or Serial enabled
                            //Probably not really that much use unless there is a slow memory leak / checking for one.
@@ -50,8 +50,8 @@ const long double cal[] = {-9.085681659276021e-27, 4.6790804314609205e-23, -1.03
 //EEPROM Settings addresses
 //Make sure that these are the same as the naming sketch - needs to be the version modified for this arduino code
 //This is the address in the EEPROM of the first / only byte that a setting is stored.
-#define EEPROM_ID1 0
-#define EEPROM_ID2 40 //By using 40, first line should be the normal naming.ino setting
-#define EEPROM_FILE_FORMAT 80
-#define EEPROM_STRING_LENGTH 40
-#define EEPROM_CONSTRAST 81
+// #define EEPROM_ID1 0
+// #define EEPROM_ID2 40 //By using 40, first line should be the normal naming.ino setting
+// #define EEPROM_FILE_FORMAT 80
+// #define EEPROM_STRING_LENGTH 40
+// #define EEPROM_CONSTRAST 81

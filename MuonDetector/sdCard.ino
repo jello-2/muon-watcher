@@ -35,7 +35,7 @@ void openLogFile(char* charBuffer) {
   //We want i to be accessable outside the loop, so do not use a for loop.
   byte i = 0;
   while (true) { //Crashes in here:
-    DEBUG_RAM();
+
     //Write the filename with the right number into charBuffer using a reference
     filenameOfI(i, charBuffer, fileExtension);
     //DEBUG_RAM();
