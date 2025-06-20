@@ -34,13 +34,7 @@ const char sdPresent[] PROGMEM = "SD Card Present";
 const char filename[] PROGMEM = "MUON_";
 const char fileError[] PROGMEM = "File Error";
 const char zero[] PROGMEM = "0";
-const char muonString[] PROGMEM = " Muon Detector";
-#define PREPROCESSOR_COMPILED "Compiled: " __DATE__ " at " __TIME__
-const char compiledString[] PROGMEM = PREPROCESSOR_COMPILED;
-#define PREPROCESSOR_FIRMWARE "Firmware version: " FIRMWARE_VERSION
-const char firmwareString[] PROGMEM = PREPROCESSOR_FIRMWARE;
-const char deviceIdentity[] PROGMEM = "Device ID: ";
-const char txtHeader[] PROGMEM = "Count Time_Stamp_ms Measured_ADC_0-1023 SIPM_Voltage_mV Dead_Time_ms Temperature_C Altitude_M"; //Copied to ram in 2 parts to save ram. First 50 chars first then the rest
+const char txtHeader[] PROGMEM = "Count Time_Stamp_ms SIPM_Voltage_mV Temperature_C Altitude_M"; //Copied to ram in 2 parts to save ram. First 50 chars first then the rest
 const char loggingTo[] PROGMEM = "Logging to: ";
 const char totalCount[] PROGMEM = "Count 0";
 const char upTime[] PROGMEM = "Time";
@@ -48,17 +42,10 @@ const char upTime[] PROGMEM = "Time";
 const char sipmWow[] PROGMEM =       "   Oh Yeah!!!  ";
 const char detectorReady[] PROGMEM = "     Ready     ";
 const char rateString[] PROGMEM = "Rate";
-const char masterString[] PROGMEM = "Master";
-const char slaveString[] PROGMEM = "Slave";
 const char colon[] PROGMEM = ":";
-const char id1String[] PROGMEM = "ID1";
-const char id2String[] PROGMEM = "ID2";
 const char formatString[] PROGMEM = "Format";
-const char contrastString[] PROGMEM = "Contrast";
 const char txtString[] PROGMEM = ".TXT";
 #define CHAR_BAR_CHART '-'
-#define CHAR_SLAVE 'S'
-#define CHAR_MASTER 'M'
 #define CHAR_BAR_GRAPH 0x7f //B01111111
 //Bitmap of the bottom scale of the bar graph (8*120)
 const byte barScaleB[] PROGMEM ={

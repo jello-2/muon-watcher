@@ -2,21 +2,14 @@
 #include "strings.h"
 
 #include <Adafruit_BMP085.h>
-Adafruit_BMP085 bmp;
-
-#ifdef USE_SCREEN
 #include <Wire.h>
 #include <U8x8lib.h>
-#endif
-
-#ifdef USE_SD_CARD
 #include <SD.h>
-File myFile;
-#endif
 
-#ifdef USE_SCREEN
+Adafruit_BMP085 bmp;
+File myFile;
+
 U8X8_SSD1306_128X64_NONAME_HW_I2C u8x8(U8X8_PIN_NONE);
-#endif
 
 unsigned long count = 0;
 float sipmVoltage = 0;
@@ -24,13 +17,24 @@ float sipmVoltage = 0;
 unsigned int startTime = 0;
 unsigned long totalDeadtime = 0;
 
-#ifdef USE_SD_CARD
 bool isSDCard = false;
 char separatorChar = ' ';
-#endif
 
 // Declare charBuffer globally for reuse across functions
 char charBuffer[60] = "";
+
+const long double cal[] = {-9.085681659276021e-27, 4.6790804314609205e-23, -1.0317125207013292e-19,
+  1.2741066484319192e-16, -9.684460759517656e-14, 4.6937937442284284e-11, -1.4553498837275352e-08,
+   2.8216624998078298e-06, -0.000323032620672037, 0.019538631135788468, -0.3774384056850066, 12.324891083404246};
+   
+   
+float get_sipm_voltage(float adc_value) {
+  float voltage = 0;
+  for (int i = 0; i < (sizeof(cal) / sizeof(float)); i++) {
+    voltage += cal[i] * pow(adc_value, (sizeof(cal) / sizeof(float) - i - 1));
+  }
+  return voltage;
+}
 
 void setup() {
   analogReference(EXTERNAL);
@@ -39,86 +43,45 @@ void setup() {
   DDRD |= PIN_LED;
   PORTD |= PIN_LED;
 
-#ifdef USE_SCREEN
+  Serial.begin(9600);
+
   u8x8.begin();
   u8x8.setFlipMode(1);
   u8x8.setPowerSave(0);
   u8x8.setFont(u8x8_font_chroma48medium8_r);
-#endif
 
   bmp.begin(); // Initialize BMP sensor
 
-#if defined USE_SCREEN || defined USE_SERIAL
   strcpy_P(charBuffer, cosmicString);
-#ifdef USE_SCREEN
   u8x8.draw2x2String(0, 0, charBuffer);
-#endif
-#ifdef USE_SERIAL
-  Serial.print(charBuffer);
-  Serial.print(' ');
-#endif
-
   strcpy_P(charBuffer, watchString);
-#ifdef USE_SCREEN
   u8x8.draw2x2String(6, 2, charBuffer);
-#endif
-#ifdef USE_SERIAL
-  Serial.print(charBuffer);
-#endif
-#endif
 
   delay(1000);
 
-#ifdef USE_SD_CARD
   if (SD.begin(PIN_SD_CARD)) {
-#if defined USE_SCREEN || defined USE_SERIAL
     strcpy_P(charBuffer, sdPresent);
-#ifdef USE_SCREEN
     u8x8.clear();
     u8x8.draw1x2String(0, 0, charBuffer);
-#endif
     strcpy_P(charBuffer, loggingTo);
-#ifdef USE_SCREEN
     u8x8.draw1x2String(0, 2, charBuffer);
-#endif
-#endif
+
     isSDCard = true;
     openLogFile(charBuffer);
-
-#ifdef USE_SERIAL
-    Serial.println(charBuffer);
-#endif
-#ifdef USE_SCREEN
     u8x8.draw1x2String(0, 4, charBuffer);
-#endif
   } else {
     strcpy_P(charBuffer, noSdCard);
-#ifdef USE_SERIAL
-    Serial.println(charBuffer);
-#endif
-#ifdef USE_SCREEN
     u8x8.clear();
     u8x8.draw1x2String(0, 0, charBuffer);
-#endif
   }
 
   if (isSDCard) {
-    strcpy_P(charBuffer, cosmicString);
-    myFile.print(charBuffer);
-    myFile.print(' ');
-    strcpy_P(charBuffer, watchString);
-    myFile.print(charBuffer);
-    strcpy_P(charBuffer, muonString);
-    myFile.println(charBuffer);
-    strcpy_P(charBuffer, deviceIdentity);
-    myFile.print(charBuffer);
+    myFile.print("细微探深");
     myFile.println();
   }
-#endif
 
   delay(1000);
 
-#ifdef USE_SD_CARD
   if (isSDCard) {
     strncpy_P(charBuffer, txtHeader, 50);
     myFile.print(charBuffer);
@@ -126,27 +89,21 @@ void setup() {
     myFile.println(charBuffer);
     myFile.flush();
   }
-#endif
 
   PORTD &= ~PIN_LED;
 
-#ifdef USE_SCREEN
   u8x8.clear();
   strcpy_P(charBuffer, totalCount);
   u8x8.draw1x2String(0, 0, charBuffer);  // Count or other text on left
 
-  // Altitude display, right aligned
   float initialAlt = bmp.readAltitude();
   char altStr[6];
-  snprintf(altStr, sizeof(altStr), "%4dm", (int)initialAlt);  // e.g. "1234m"
+  snprintf(altStr, sizeof(altStr), "%4dm", (int)initialAlt);
 
-  byte altLen = strlen(altStr);  // 5 for "1234m"
-  byte startCol = 16 - altLen;   // Right align: place so last char at col 15
+  byte altLen = strlen(altStr);
+  byte startCol = 16 - altLen;
 
   u8x8.draw1x2String(startCol, 0, altStr);
-#endif
-
-  analogRead(PIN_DETECTOR);
   startTime = millis();
 }
 
@@ -154,19 +111,19 @@ void loop() {
   if (analogRead(PIN_DETECTOR) > THRESHOLD_SIGNAL) {
     float initialAlt = bmp.readAltitude();
     int detectionADC = analogRead(PIN_DETECTOR);
+
+    Serial.println(detectionADC); // Print only the ADC value
+
     unsigned long timeStamp = micros();
     unsigned long timeDetecting = millis() - startTime;
 
     PORTD |= PIN_LED;
 
-#if defined USE_SCREEN || defined USE_SERIAL
     float temperatureC = (((analogRead(PIN_TEMPERATURE) * 2) * (1650.0 / 1024)) - TEMPERATURE_SENSOR_OFFSET) / 10.0;
-#endif
 
     count++;
     sipmVoltage = get_sipm_voltage(detectionADC);
 
-    // Buffers for converting values to strings
     char countString[11], timeString[11], adcString[5], sipmVString[7], deadtimeString[11], tempCString[7];
 
     ultoa(count, countString, 10);
@@ -179,48 +136,35 @@ void loop() {
     ultoa(totalDeadtime, deadtimeString, 10);
     dtostrf(temperatureC, 1, 1, tempCString);
 
-#ifdef USE_SD_CARD
     if (isSDCard) {
-      myFile.print(countString);       myFile.print(separatorChar);
-      myFile.print(timeString);        myFile.print(separatorChar);
-      myFile.print(adcString);         myFile.print(separatorChar);
-      myFile.print(sipmVString);       myFile.print(separatorChar);
-      myFile.print(deadtimeString);    myFile.print(separatorChar);
-      myFile.print(tempCString);       myFile.print(separatorChar);
+      myFile.print(countString);      myFile.print(separatorChar);
+      myFile.print(timeString);       myFile.print(separatorChar);
+      myFile.print(sipmVString);      myFile.print(separatorChar);
+      myFile.print(tempCString);      myFile.print(separatorChar);
       myFile.print(initialAlt);
-
-#ifdef USE_SERIAL_DEBUG
-#ifndef USE_SERIAL
-      int ramLeft = freeRam();
-#endif
-      myFile.print(separatorChar);
-      myFile.print(ramLeft);
-#endif
       myFile.println();
-
-#ifdef SD_CARD_SKIP_WRITES
-      if ((count & 0x01) == 0x00) {
-        myFile.flush();
-      }
-#else
       myFile.flush();
-#endif
     }
-#endif
 
-#ifdef USE_SCREEN
+    //drawing
     u8x8.clear();
     strcpy_P(charBuffer, totalCount);
     u8x8.draw1x2String(0, 0, charBuffer);  // Count or other text on left
 
-    char altStr[6];
-    snprintf(altStr, sizeof(altStr), "%4dm", (int)initialAlt);  // e.g. "1234m"
-
-    byte altLen = strlen(altStr);  // 5 for "1234m"
-    byte startCol = 16 - altLen;   // Right align
-
+    char altStr[7];
+    snprintf(altStr, sizeof(altStr), "%4dm", (int)initialAlt);
+    byte startCol = 16 - strlen(altStr);
     u8x8.draw1x2String(startCol, 0, altStr);
-#endif
+
+    strcpy_P(charBuffer, rateString);
+    u8x8.draw1x2String(0, 2, "Time:");
+    u8x8.draw1x2String(0, 6, charBuffer);
+
+    for (byte i = 0; i < 15; i++) {
+      memcpy_P(charBuffer, barScaleB + i * 8, 8);
+      u8x8.drawTile(i + 1, 5, 1, charBuffer);
+    }    
+    //end drawing
 
     PORTD &= ~PIN_LED;
 
@@ -228,7 +172,7 @@ void loop() {
     totalDeadtime += (micros() - timeStamp) / 1000;
   }
 
-#ifdef USE_SCREEN
   updateTime();
-#endif
 }
+
+

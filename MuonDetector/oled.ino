@@ -9,12 +9,14 @@ void runningTime(char * timeSinceStart) {
   byte seconds = milliSeconds / 1000 % 60;
   byte minutes = milliSeconds / 60000 % 60;
   byte hours = milliSeconds / 3600000 % 24;
-  byte days = milliSeconds / 86400000; //Days
+  // byte days = milliSeconds / (removed calculation for days); // Removed this line
+
+  char number[7]; // This buffer size is still sufficient for HH:MM:SS, but could be smaller if only H:M:S is needed
   
-  char number[7];
-  itoa(days, number, 10);
-  strcpy(timeSinceStart, number);
-  strcat_P(timeSinceStart, colon);
+  // Removed conversion and concatenation for 'days'
+  
+  strcpy(timeSinceStart, ""); // Initialize timeSinceStart as empty
+
   //Add a 0 to keep places
   if (hours < 10) {
     strcat_P(timeSinceStart, zero);

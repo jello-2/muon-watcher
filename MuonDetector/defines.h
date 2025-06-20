@@ -17,21 +17,10 @@
 //If the screen is used, it will be updated once per second.
 #define USE_SCREEN //Whether to include the library and code for driving the oled display or not
 #define USE_SD_CARD //Whether to include the library and code for writing to the sd card
-// #define USE_SERIAL //Whether to enable serial
-//#define USE_SERIAL_SETTINGS 0//Whether to include code for saving the detector name into eeprom without having to flash naming.ino
-                            //Will only be enabled if USE_SERIAL is enabled as well
-//#define USE_SERIAL_DEBUG //Prints out the RAM usage on the end of the data just before saving it to the sd card / serial. Only active if SD Card or Serial enabled
-                           //Probably not really that much use unless there is a slow memory leak / checking for one.
-                           //Strategically putting "DEBUG_RAM();" in various areas of the code with USE_SERIAL_DEBUG enabled will also send the amount of ram used and the line number it is at
-//Thresholds
 #define THRESHOLD_SIGNAL 50
 #define THRESHOLD_RESET 15
 #define THRESHOLD_LARGE 180
 
-//Calibration
-const long double cal[] = {-9.085681659276021e-27, 4.6790804314609205e-23, -1.0317125207013292e-19,
-  1.2741066484319192e-16, -9.684460759517656e-14, 4.6937937442284284e-11, -1.4553498837275352e-08,
-   2.8216624998078298e-06, -0.000323032620672037, 0.019538631135788468, -0.3774384056850066, 12.324891083404246};
 
 //General
 #define NUMBER_FILES_TO_DELETE 5 //If the sd card if full, start at the beginning and delete 5 more files ahead
@@ -39,19 +28,4 @@ const long double cal[] = {-9.085681659276021e-27, 4.6790804314609205e-23, -1.03
 #define MAX_FILES 200 //200 temp, 10 for testingMaximum file number before rolls back to 0 Needs to be less then 255 - NUMBER_FILES_TO_DELETE (in this case 250)
 #define SCREEN_UPDATE_INTERVAL 1000 //ms between updating the screen
 #define TEMPERATURE_SENSOR_OFFSET 500 //The voltage (in mV) produced by the temperature sensor when the temperature is 0.
-                            //TMP36 (the one that is specified in the design): 500
-                            //TMP35: 0
-#define SERIAL_TIMEOUT 10000 //Timeout for serial reads
-//Only write to the sd card every few readings. This should be faster, but runs the risk of loosing the last few readings.
 
-//Did not seem to make much difference, so leaving disabled for now
-//#define SD_CARD_SKIP_WRITES //Do not force the buffer in the Arduino's ram to be written to the sd card every detection. Instead flush every 2nd count (bit 0 of count == 0)
-
-//EEPROM Settings addresses
-//Make sure that these are the same as the naming sketch - needs to be the version modified for this arduino code
-//This is the address in the EEPROM of the first / only byte that a setting is stored.
-// #define EEPROM_ID1 0
-// #define EEPROM_ID2 40 //By using 40, first line should be the normal naming.ino setting
-// #define EEPROM_FILE_FORMAT 80
-// #define EEPROM_STRING_LENGTH 40
-// #define EEPROM_CONSTRAST 81

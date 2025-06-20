@@ -16,17 +16,6 @@ void filenameOfI(byte i, char * returnBuffer, char * extension) {
 }
 #endif
 #ifdef USE_SD_CARD
-void deleteFiles(byte index, char* extension) {
-  char charBuffer[12];
-  for (byte i = index; i < index + NUMBER_FILES_TO_DELETE; i++) {
-    filenameOfI(i, charBuffer, extension);
-    if (SD.exists(charBuffer)) {
-      Serial.print(F("Removing "));
-      Serial.println(charBuffer);
-      SD.remove(charBuffer);
-    }
-  }
-}
 void openLogFile(char* charBuffer) {
   char fileExtension[5];
 
@@ -50,8 +39,6 @@ void openLogFile(char* charBuffer) {
       break;
     }
   }
-  //Get rid of 5 files following so can tell where up to if looped around a few times.
-  deleteFiles(i + 1, fileExtension);
   myFile = SD.open(charBuffer, FILE_WRITE);
   //Serial.println(charBuffer);
   if (myFile != true) {
