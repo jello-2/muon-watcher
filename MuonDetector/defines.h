@@ -5,7 +5,6 @@
  */
 #define FIRMWARE_VERSION "2.3.2"
 //Pins
-#define PIN_DETECTOR A0
 #define PIN_TEMPERATURE A3
 #define PIN_LED B00001000 //Bitmap of pin D3 - Does not use digitalWrite to save time and memory
 #define PIN_SD_CARD 10
@@ -18,7 +17,7 @@
 #define USE_SCREEN //Whether to include the library and code for driving the oled display or not
 #define USE_SD_CARD //Whether to include the library and code for writing to the sd card
 #define THRESHOLD_SIGNAL 50
-#define THRESHOLD_RESET 15
+#define THRESHOLD_RESET 25
 #define THRESHOLD_LARGE 180
 
 

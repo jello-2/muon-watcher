@@ -29,19 +29,16 @@ const long double cal[] = {-9.085681659276021e-27, 4.6790804314609205e-23, -1.03
    
    
 float get_sipm_voltage(float adc_value) {
-  float voltage = 0;
-  for (int i = 0; i < (sizeof(cal) / sizeof(float)); i++) {
-    voltage += cal[i] * pow(adc_value, (sizeof(cal) / sizeof(float) - i - 1));
-  }
-  return voltage;
+  float v = 0;
+  for (int i = 0; i < 12; i++) v += cal[i] * pow(adc_value, 11 - i);
+  return v;
 }
 
 void setup() {
   analogReference(EXTERNAL);
   ADCSRA &= ~(bit(ADPS0) | bit(ADPS1) | bit(ADPS2));
   ADCSRA |= bit(ADPS0) | bit(ADPS1);
-  DDRD |= PIN_LED;
-  PORTD |= PIN_LED;
+  pinMode(3, OUTPUT);
 
   Serial.begin(9600);
 
@@ -56,8 +53,6 @@ void setup() {
   u8x8.draw2x2String(0, 0, charBuffer);
   strcpy_P(charBuffer, watchString);
   u8x8.draw2x2String(6, 2, charBuffer);
-
-  delay(1000);
 
   if (SD.begin(PIN_SD_CARD)) {
     strcpy_P(charBuffer, sdPresent);
@@ -76,11 +71,12 @@ void setup() {
   }
 
   if (isSDCard) {
-    myFile.print("细微探深");
+    //myFile.print("细微探深");
     myFile.println();
   }
 
-  delay(1000);
+
+  delay(2000);
 
   if (isSDCard) {
     strncpy_P(charBuffer, txtHeader, 50);
@@ -104,13 +100,17 @@ void setup() {
   byte startCol = 16 - altLen;
 
   u8x8.draw1x2String(startCol, 0, altStr);
+
+  analogRead(A0);
   startTime = millis();
 }
 
 void loop() {
-  if (analogRead(PIN_DETECTOR) > THRESHOLD_SIGNAL) {
+  if (analogRead(A0) > THRESHOLD_SIGNAL) {
+    int detectionADC = analogRead(A0);
+    
     float initialAlt = bmp.readAltitude();
-    int detectionADC = analogRead(PIN_DETECTOR);
+    
 
     Serial.println(detectionADC); // Print only the ADC value
 
@@ -168,8 +168,8 @@ void loop() {
 
     PORTD &= ~PIN_LED;
 
-    while (analogRead(PIN_DETECTOR) > THRESHOLD_RESET) {}
-    totalDeadtime += (micros() - timeStamp) / 1000;
+    while (analogRead(A0) > THRESHOLD_RESET) {continue;}
+    totalDeadtime += (micros() - timeStamp) / 1000.;
   }
 
   updateTime();
