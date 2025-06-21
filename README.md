@@ -4,7 +4,7 @@ A Hackclub Apex project by Brian Zhang, Daniel Zhang, and Eugene Lee
 
 ## Project Motivation
 
-In Physics, a prominent example of special relativity used is the Muon; a particle that travels at high enough speeds to experience relativistic effects. This project aims to observe time dialation in muons, utilizing scintilators and sensors to detect the change in rate of muons detected. The project hopes to confirm / explore the Pfotzer maximum, where experimentation and theory have shown that a maximal rate of particle detection occurs at ~29km.
+In Physics, a prominent example of special relativity used is the Muon; a particle that travels at high enough speeds to experience relativistic effects. This project aims to observe time dilation in muons, utilizing scintillators and sensors to detect the change in rate of muons detected. The project hopes to confirm / explore the Pfotzer maximum, where experimentation and theory have shown that a maximal rate of particle detection occurs at ~29km.
 
 ## Project outline
 
