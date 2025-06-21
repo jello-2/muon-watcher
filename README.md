@@ -19,7 +19,7 @@ Muon detection is done through the CosmicWatch Desktop Muon Detector (https://gi
 - Arduino
 - Power supply
 
-![image](https://github.com/user-attachments/assets/a2390698-e882-4ef6-b9f9-b41010784690)
+<img src="https://cdn.discordapp.com/attachments/325487410991464450/1386119838036000909/image.png?ex=68588c32&is=68573ab2&hm=5f341f3fa700214966d9a7f2ec54c50d027a751ff50b4df97e309c73aed97c9b&" width="300">
 
 - Camera
 - tentative list, other components TBD
