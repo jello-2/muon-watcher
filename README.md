@@ -18,6 +18,9 @@ Muon detection is done through the CosmicWatch Desktop Muon Detector (https://gi
 - Altimeter
 - Arduino
 - Power supply
+
+![image](https://github.com/user-attachments/assets/a2390698-e882-4ef6-b9f9-b41010784690)
+
 - Camera
 - tentative list, other components TBD
 
