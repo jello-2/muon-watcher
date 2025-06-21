@@ -4,7 +4,7 @@ A Hackclub Apex project by Brian Zhang, Daniel Zhang, and Eugene Lee
 
 ## Project Motivation
 
-In Physics, a prominent example of special relativity used is the Muon; a particle that travels at high enough speeds to experience relativistic effects. This project aims to observe time dialation, utilizing scintilators and sensors to detect the change in rate of muons detected.
+In Physics, a prominent example of special relativity used is the Muon; a particle that travels at high enough speeds to experience relativistic effects. This project aims to observe time dialation, utilizing scintilators and sensors to detect the change in rate of muons detected. We hope to extend it to muon tomography, a form of imaging by observing the change in rates when muons are absorbed through dense material.
 
 ## Project outline
 
