@@ -8,3 +8,5 @@ This code was taken directly from Spencer Axani and the CosmicWatch Muon Detecto
 ## Hardware
 
 For the hardware, our PCB and Scintillator were followed near-identically (except for its tuning) from the repository. The case was cut from a differently sized styrofoam box, and we tried adding a polycarbonate window. This proved to be too heavy, and posed potential adhesion issues. Therefore, it was also scrapped. A camera mount was CADed as well.
+
+Simiarily, a shell for the PCB was also designed, but then removed, since it was not only too heavy, but inhibited the access to sensors.
