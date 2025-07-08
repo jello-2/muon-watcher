@@ -17,9 +17,9 @@ Muon detection is done through the CosmicWatch Desktop Muon Detector (https://gi
 ## Work Splits:
 | Person | work accomplished |
 | -------| -----------------|
-| Eugene | soldering, wiring, first & second box, initial version 1 code, research, version 2 code, project design |
-| Daniel | soldering, camera mount CAD, first box (window, wiring), version 2 Oled + altimeter + SD card code, parts ordering |
-| Brian | first & second box, battery holder, research, project design, box testing, component wiring|
+| Eugene | soldering, wiring, first & second box assembley, initial version 1 code, research, version 2 code debugging, project design |
+| Daniel | soldering, camera mount CAD, first box (window creation, camera mounting), version 2 Oled + altimeter + SD card code, parts ordering |
+| Brian | second box component assembly, battery holder, research, project design, box testing, component wiring|
 
 A more detailed presentation can be viewed here: https://docs.google.com/presentation/d/1ZBc04pf7R1xf7GHWZV_NUtK7q8jfDxB4UwPaJ63R6cA/edit?usp=sharing
 ## Components
