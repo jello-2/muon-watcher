@@ -13,6 +13,14 @@ https://www.unco.edu/nhs/physics-astronomy/pdf/2018CSGCEclipse.pdf
 show that there exists a particular curve for this data, the Pfotzer curve. Thus, this experiment intends to not only observe the Muons themselves, but also whether if the Pfotzer curve exists in our own experimentation
 
 Muon detection is done through the CosmicWatch Desktop Muon Detector (https://github.com/spenceraxani/CosmicWatch-Desktop-Muon-Detector-v2), to which it will be modified to include other sensors.
+
+## Work Splits:
+| Person | work accomplished |
+| -------| -----------------|
+| Eugene | soldering, wiring, first & second box, initial version 1 code, research, version 2 code, project design |
+| Daniel | soldering, camera mount CAD, first box (window, wiring), version 2 Oled + altimeter + SD card code, parts ordering |
+| Brian | first & second box, battery holder, research, project design, box testing, component wiring|
+
 ## Components
 - Scintillator
 - Altimeter
@@ -31,7 +39,7 @@ Muon detection is done through the CosmicWatch Desktop Muon Detector (https://gi
 | 1. Research | Muon fundamentals, components required, altitude-rate theory  | Complete|
 | 2. Building| Components delivered and to be soldered, planning of location of parts and sensors   | Complete |
 | 3. Testing  | Make sure components and code are foolproof, meet with engineers | Complete |
-| 4. Official Run | Attached to weatherballoon| - |
+| 4. Official Run | Attached to weatherballoon| Complete |
 |5. Data analysis and results| Plotting with tools such as Matplotlib | -|
 
 ## Acknolwedgements
