@@ -21,16 +21,16 @@ Muon detection is done through the CosmicWatch Desktop Muon Detector (https://gi
 | Daniel | soldering, camera mount CAD, first box (window, wiring), version 2 Oled + altimeter + SD card code, parts ordering |
 | Brian | first & second box, battery holder, research, project design, box testing, component wiring|
 
+A more detailed presentation can be viewed here: https://docs.google.com/presentation/d/1ZBc04pf7R1xf7GHWZV_NUtK7q8jfDxB4UwPaJ63R6cA/edit?usp=sharing
 ## Components
 - Scintillator
 - Altimeter
 - Arduino
-- Power supply
-
-<img src="https://cdn.discordapp.com/attachments/325487410991464450/1386119838036000909/image.png?ex=68588c32&is=68573ab2&hm=5f341f3fa700214966d9a7f2ec54c50d027a751ff50b4df97e309c73aed97c9b&" width="300">
-
-- Camera
-- tentative list, other components TBD
+- Battery packs
+- Styrofoam box
+- Jumper Wires
+- OLED screen
+- PCB + LED
 
 ## Progress
 
